@@ -22,90 +22,51 @@ def start_typing(snippet, delay=0.05):
 
 # Code snippets
 cplusplus_code = '''
-class Solution {
-    public String multiplyStrings(String s1, String s2) {
-        // Process both strings to handle sign and leading zeros
-        s1 = process(s1);
-        s2 = process(s2);
-        
-        // Handle edge case when either number is zero
-        if (s1.equals("0") || s2.equals("0")) {
-            return "0";
-        }
-        
-        // Determine if the result will be negative
-        int sign = 1;
-        if (s1.charAt(0) == '-' && s2.charAt(0) != '-') {
-            sign = -1;
-        }
-        if (s1.charAt(0) != '-' && s2.charAt(0) == '-') {
-            sign = -1;
-        }
-        
-        // Remove the sign for the multiplication process
-        if (s1.charAt(0) == '-') s1 = s1.substring(1);
-        if (s2.charAt(0) == '-') s2 = s2.substring(1);
-        
-        // Now multiply the two strings
-        int m = s1.length();
-        int n = s2.length();
-        int[] result = new int[m + n]; // result array to store the product
+import java.util.*;
 
-        // Perform multiplication of each digit
-        for (int i = m - 1; i >= 0; i--) {
-            for (int j = n - 1; j >= 0; j--) {
-                int mul = (s1.charAt(i) - '0') * (s2.charAt(j) - '0');
-                int sum = mul + result[i + j + 1]; // Add previous carry
-                result[i + j + 1] = sum % 10; // Store the current digit
-                result[i + j] += sum / 10; // Carry for the next digit
+public class MakeArrayEqual {
+
+    // Function to compute minimum operations
+    public static int minOperations(List<Integer> A) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+
+        for (int num : A) {
+            int steps = 0;
+            while (num > 0) {
+                map.putIfAbsent(num, new ArrayList<>());
+                map.get(num).add(steps);
+                num /= 2;
+                steps++;
             }
         }
-        
-        // Convert result array to string
-        StringBuilder sb = new StringBuilder();
-        for (int num : result) {
-            if (!(sb.length() == 0 && num == 0)) {
-                sb.append(num);
+
+        int minOps = Integer.MAX_VALUE;
+        int n = A.size();
+
+        for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
+            List<Integer> opsList = entry.getValue();
+            if (opsList.size() < n) continue; // Not all elements can reach this value
+            Collections.sort(opsList);
+            int total = 0;
+            for (int i = 0; i < n; i++) {
+                total += opsList.get(i);
             }
+            minOps = Math.min(minOps, total);
         }
-        
-        // If the result should be negative, add the minus sign
-        if (sign == -1) {
-            sb.insert(0, '-');
-        }
-        
-        return sb.toString();
+
+        return minOps;
     }
 
-    // Helper method to process the strings by removing leading zeros and handling sign
-    private String process(String s) {
-        int index = 0;
-        // Skip any leading zeroes
-        while (index < s.length() && s.charAt(index) == '0') {
-            index++;
-        }
-        
-        // If the entire string is zeros, return "0"
-        if (index == s.length()) {
-            return "0";
-        }
-        
-        // Return the substring without leading zeros
-        return s.substring(index);
+    // Main method to run sample test cases
+    public static void main(String[] args) {
+        List<Integer> input1 = Arrays.asList(3, 1, 1, 3);
+        List<Integer> input2 = Arrays.asList(2, 2, 2);
+
+        System.out.println("Output 1: " + minOperations(input1)); // Expected: 2
+        System.out.println("Output 2: " + minOperations(input2)); // Expected: 0
     }
 }
 
-
-'''
-
-hello_world_code = '''
-#include <iostream>
-using namespace std;
-
-int main() {
-    cout << "Hello, World!" << endl;
-    return 0;
-}
 '''
 
 # Start background hotkeys
