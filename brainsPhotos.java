@@ -5,25 +5,24 @@ public class brainsPhotos {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int rows = sc.nextInt();
-        int cols = sc.nextInt();
+        int n = sc.nextInt();
+        int m = sc.nextInt();
 
-        char[][] arr = new char[rows][cols];
-        for(int i=0; i<rows; i++){
-            for(int j=0; j<cols; j++){
+        char[][] arr = new char[n][m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
                 arr[i][j] = sc.next().charAt(0);
             }
         }
 
-        boolean colorless = true;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (arr[i][j] == 'C' || arr[i][j] == 'M' || arr[i][j] == 'Y') {
-                    colorless = false;
+        boolean isBNW = true;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if(arr[i][j] == 'C' || arr[i][j] == 'M' || arr[i][j] == 'Y'){
+                    isBNW = false;
                 }
             }
         }
-
-        System.out.println(colorless ? "#Black&White" : "#Color");
+        System.out.println(isBNW ? "#Black&White" : "#Color");
     }
 }
