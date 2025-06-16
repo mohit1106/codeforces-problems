@@ -24,46 +24,40 @@ def start_typing(snippet, delay=0.05):
 cplusplus_code = '''
 import java.util.*;
 
-public class MakeArrayEqual {
+class Solution {
+    public List<Integer> sumClosest(int[] arr, int target) {
+        List<Integer> result = new ArrayList<>();
+        if (arr.length < 2) return result;
 
-    // Function to compute minimum operations
-    public static int minOperations(List<Integer> A) {
-        Map<Integer, List<Integer>> map = new HashMap<>();
+        Arrays.sort(arr);  // Sort to use two-pointer approach
+        int left = 0, right = arr.length - 1;
+        int closestDiff = Integer.MAX_VALUE;
+        int maxAbsDiff = -1;
 
-        for (int num : A) {
-            int steps = 0;
-            while (num > 0) {
-                map.putIfAbsent(num, new ArrayList<>());
-                map.get(num).add(steps);
-                num /= 2;
-                steps++;
+        while (left < right) {
+            int sum = arr[left] + arr[right];
+            int diff = Math.abs(sum - target);
+            int absDiff = Math.abs(arr[right] - arr[left]);
+
+            if (diff < closestDiff) {
+                closestDiff = diff;
+                maxAbsDiff = absDiff;
+                result = Arrays.asList(arr[left], arr[right]);
+            } else if (diff == closestDiff) {
+                if (absDiff > maxAbsDiff) {
+                    maxAbsDiff = absDiff;
+                    result = Arrays.asList(arr[left], arr[right]);
+                }
+            }
+
+            if (sum < target) {
+                left++;
+            } else {
+                right--;
             }
         }
 
-        int minOps = Integer.MAX_VALUE;
-        int n = A.size();
-
-        for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
-            List<Integer> opsList = entry.getValue();
-            if (opsList.size() < n) continue; // Not all elements can reach this value
-            Collections.sort(opsList);
-            int total = 0;
-            for (int i = 0; i < n; i++) {
-                total += opsList.get(i);
-            }
-            minOps = Math.min(minOps, total);
-        }
-
-        return minOps;
-    }
-
-    // Main method to run sample test cases
-    public static void main(String[] args) {
-        List<Integer> input1 = Arrays.asList(3, 1, 1, 3);
-        List<Integer> input2 = Arrays.asList(2, 2, 2);
-
-        System.out.println("Output 1: " + minOperations(input1)); // Expected: 2
-        System.out.println("Output 2: " + minOperations(input2)); // Expected: 0
+        return result;
     }
 }
 

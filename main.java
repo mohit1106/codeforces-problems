@@ -1,23 +1,20 @@
+// https://codeforces.com/problemset/problem/1838/C
+// https://codeforces.com/problemset/problem/2002/C
 import java.util.*;
 public class Main {
 
+    public static void subset(int[] arr, int i, String res){
+        if( i>= arr.length){
+            System.out.println(res);
+            return;
+        }
+        subset(arr, i+1, res+arr[i]);
+        subset(arr, i+1, res);
+        
+    }
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] arr = new int[n];
-        for(int i=0; i<n; i++){
-            arr[i] = sc.nextInt();
-        }
-        int answer = 0;
-        for(int x=0; x<=n; x++){
-            int count = 0;
-            for(int i=0; i<n; i++){
-                if(arr[i] >= x) count++;
-            }
-            if(count >= x){
-                answer = x;
-            }
-        }
-        System.out.println(answer);
+        int[] arr = {1,2,3,4};
+        String res = "";
+        subset(arr, 0, res);
     }
 }
