@@ -22,44 +22,30 @@ def start_typing(snippet, delay=0.05):
 
 # Code snippets
 cplusplus_code = '''
-import java.util.*;
+int res = 0;
+        Arrays.sort(arr);
 
-class Solution {
-    public List<Integer> sumClosest(int[] arr, int target) {
-        List<Integer> result = new ArrayList<>();
-        if (arr.length < 2) return result;
+        // Iterate through the array, fixing the largest side at arr[i]
+        for (int i = 2; i < arr.length; ++i) {
+            // Initialize pointers for the two smaller sides
+            int left = 0, right = i - 1;
 
-        Arrays.sort(arr);  // Sort to use two-pointer approach
-        int left = 0, right = arr.length - 1;
-        int closestDiff = Integer.MAX_VALUE;
-        int maxAbsDiff = -1;
+            while (left < right) {
+                if (arr[left] + arr[right] > arr[i]) {
+                    // arr[left] + arr[right] satisfies the triangle inequality,
+                    // so all pairs (x, right) with (left <= x < right) are valid
+                    res += right - left;
 
-        while (left < right) {
-            int sum = arr[left] + arr[right];
-            int diff = Math.abs(sum - target);
-            int absDiff = Math.abs(arr[right] - arr[left]);
-
-            if (diff < closestDiff) {
-                closestDiff = diff;
-                maxAbsDiff = absDiff;
-                result = Arrays.asList(arr[left], arr[right]);
-            } else if (diff == closestDiff) {
-                if (absDiff > maxAbsDiff) {
-                    maxAbsDiff = absDiff;
-                    result = Arrays.asList(arr[left], arr[right]);
+                    // Move the right pointer to check smaller pairs
+                    right--;
+                } else {
+                    // Move the left pointer to increase the sum
+                    left++;
                 }
-            }
-
-            if (sum < target) {
-                left++;
-            } else {
-                right--;
             }
         }
 
-        return result;
-    }
-}
+        return res;
 
 '''
 
