@@ -10,7 +10,7 @@ public class oneAndTwo {
             int n = sc.nextInt();
             int[] a = new int[n];
             int[] prefixTwos = new int[n + 1];
- 
+            
             for (int i = 0; i < n; i++) {
                 a[i] = sc.nextInt();
                 prefixTwos[i + 1] = prefixTwos[i] + (a[i] == 2 ? 1 : 0);
