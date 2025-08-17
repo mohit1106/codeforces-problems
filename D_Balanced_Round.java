@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class D_Balanced_Round {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,7 +12,27 @@ public class Main {
     }
 
     static void solve() {
-        
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = in.nextInt();
+        }
+
+        Arrays.sort(a);
+
+        int maxLen = 1;
+        int l = 0;
+
+        for (int r = 1; r < n; r++) {
+            if (a[r] - a[r - 1] <= k) {
+                maxLen = Math.max(maxLen, r - l +1);
+            } else {
+                l = r;
+            }
+        }
+
+        out.println(n - maxLen);
     }
 
     static class FastReader {

@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class B_Bogosort {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,7 +12,23 @@ public class Main {
     }
 
     static void solve() {
+        int n = in.nextInt();
+        int[] arr = new int[n];
+        for(int i=0;i<n;i++){
+            arr[i] = in.nextInt();
+        }
+
+        Arrays.sort(arr);
+        int[] desc = new int[n];
+        for(int i=0; i<arr.length; i++){
+            desc[i] = arr[arr.length-1-i];
+        }
+
+        for (int i = 0; i < desc.length; i++) {
+            System.out.print(desc[i]+" ");
+        }
         
+        System.out.println();
     }
 
     static class FastReader {

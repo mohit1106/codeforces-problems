@@ -1,7 +1,8 @@
 import java.io.*;
 import java.util.*;
+import java.math.*;
 
-public class Main {
+public class B_Fair_Numbers {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,9 +13,24 @@ public class Main {
     }
 
     static void solve() {
-        
+        long n = in.nextLong();
+        long x = n;
+
+        while (!isFair(x)) {
+            x++;
+        }
+        out.println(x);
     }
 
+    public static boolean isFair(long x){
+        long org = x;
+        while(x>0){
+            int d = (int) (x%10);
+            if(d!=0 && (org%d) != 0) return false;
+            x /= 10;
+        }
+        return true;
+    }
     static class FastReader {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;

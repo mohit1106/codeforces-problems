@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class C_Yarik_and_Array {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,7 +12,26 @@ public class Main {
     }
 
     static void solve() {
-        
+        int n = in.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = in.nextInt();
+
+        int ans = a[0];
+        int mn = Math.min(0, a[0]);
+        int sum = a[0];
+
+        for (int i = 1; i < n; i++) {
+            if (Math.abs(a[i] % 2) == Math.abs(a[i - 1] % 2)) {
+                // Bad position → reset
+                mn = 0;
+                sum = 0;
+            }
+            sum += a[i];
+            ans = Math.max(ans, sum - mn);
+            mn = Math.min(mn, sum);
+        }
+
+        System.out.println(ans);
     }
 
     static class FastReader {

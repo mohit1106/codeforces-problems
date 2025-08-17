@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class C_Move_Brackets {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,7 +12,21 @@ public class Main {
     }
 
     static void solve() {
-        
+        int n = in.nextInt();
+        String str = in.next();
+
+        int res = 0;
+        Stack<Character> stack = new Stack<>();
+        for(int i=0; i<str.length(); i++){
+            char curr = str.charAt(i);
+            if(curr=='('){
+                stack.push(curr);
+            } else if (curr==')' && stack.peek() != '(') {
+                res++;
+            } else{
+                stack.pop();
+            }
+        }
     }
 
     static class FastReader {

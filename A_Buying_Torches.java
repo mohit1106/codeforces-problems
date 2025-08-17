@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class A_Buying_Torches {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,7 +12,14 @@ public class Main {
     }
 
     static void solve() {
-        
+        long x = in.nextLong();
+        long y = in.nextLong();
+        long k = in.nextLong();
+
+        long stickWeNeed = (y*k) + (k-1);
+        long mandatoryTrade = k;
+        long extraTrade = (stickWeNeed + (x-2))/(x-1);
+        System.out.println(mandatoryTrade + extraTrade);
     }
 
     static class FastReader {
