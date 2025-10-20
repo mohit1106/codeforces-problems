@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class D_Candy_Box_easy_version {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,27 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        int n = in.nextInt();
+        int[] arr = new int[n];
+        Map<Integer, Integer> map = new HashMap<>();
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        for (int i = 0; i < n; i++) {
+            arr[i] = in.nextInt();
+            map.put(arr[i], map.getOrDefault(arr[i], 0)+1);
         }
 
-        System.out.println(count);
+        ArrayList<Integer> freq = new ArrayList<>(map.values());
+        Collections.sort(freq, Collections.reverseOrder());
+
+        int prev = freq.get(0);
+        int ans = prev;
+        for (int i = 1; i < freq.size(); i++) {
+            prev = Math.min(prev - 1, freq.get(i));
+            if (prev <= 0) break;
+            ans += prev;
+        }
+
+        System.out.println(ans);
     }
 
     static class FastReader {

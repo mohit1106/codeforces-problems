@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class B_Maximum_Cost_Permutation {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,42 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        int n = in.nextInt();
+        int[] arr = new int[n+1];
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
+        int zeros = 0;
+        boolean[] exists = new boolean[n+1];
 
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        for (int i = 1; i <= n; i++) {
+            arr[i] = in.nextInt();
+            if(arr[i] == 0) zeros++;
+            else exists[arr[i]] = true;
         }
 
-        System.out.println(count);
+        int missingval=-1;
+        if(zeros==1){
+            for(int i=1;i<=n;i++){
+                if(!exists[i]) { missingval=i; break; }
+            }
+        }
+
+        int first=-1,last=-1;
+        for (int i = 1; i <=n; i++) {
+            boolean canmiss= false;
+            if(arr[i] !=0){
+                if(arr[i]!=i) canmiss = true;
+            } else{
+                if(zeros>=2) canmiss=true;
+                else { if(missingval != i) canmiss=true; }
+            }
+
+            if(canmiss){
+                if(first==-1) first=i;
+                last = i;
+            }
+        }
+        if(first==-1) System.out.println(0);
+        else System.out.println((last-first+1));
     }
 
     static class FastReader {

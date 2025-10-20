@@ -1,9 +1,11 @@
 import java.io.*;
+import java.math.BigInteger;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class B_Kill_Demodogs {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
+    static final long MOD = 1_000_000_007L;
 
     public static void main(String[] args) throws Exception {
         int t = in.nextInt();
@@ -12,27 +14,38 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        long n = in.nextLong();
+        long nMod = n % MOD;
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
+        long n2 = mul(nMod, nMod);      
+        long n3 = mul(n2, nMod);  
 
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
-        }
+        long part1 = (4 * n3) % MOD;          
+        long part2 = (3 * n2) % MOD;        
+        long part3 = (MOD - nMod) % MOD; 
 
-        System.out.println(count);
+        long numer = (part1 + part2) % MOD;
+        numer = (numer + part3) % MOD;       
+
+        long inv6 = modPow(6, MOD - 2, MOD);
+        long ansMod = mul(numer, inv6);      
+
+        long res = mul(ansMod, 2022);       
+        System.out.println(res);
+        
+    }
+    public static long modPow(long a, long e, long mod){
+        long res = 1;
+        a %= mod;
+        while (e > 0) {
+            if ((e & 1) == 1) res = (res * a) % mod;
+            a = (a * a) % mod;
+            e >>= 1;
+        }
+        return res;
+    }
+    static long mul(long a, long b) {
+        return (a % MOD) * (b % MOD) % MOD;
     }
 
     static class FastReader {

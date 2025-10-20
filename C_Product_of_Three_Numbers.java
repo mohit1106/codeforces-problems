@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class C_Product_of_Three_Numbers {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,40 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        int n = in.nextInt();
+        
+        ArrayList<Long> factors = new ArrayList<>();
+        long x =n;
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
+        long a = -1;
+        for(long i=2; i*i<=x; i++){
+            if(x%i==0){
+                a=i;
+                x=x/i;
+                break;
+            }
         }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        if(a==-1){
+            System.out.println("NO");
+            return;
         }
 
-        System.out.println(count);
+        long b=-1;
+        for (long i = a+1; i*i<=x; i++) {
+            if(x%i==0){
+                b=i;
+                x/=i;
+                break;
+            }
+        }
+        if(b==-1 || x==1|| x==a||x==b){
+            System.out.println("NO");
+            return;
+        }
+        long c =x;
+        System.out.println("YES");
+        System.out.println(a + " " + b+ " " + c);
+
     }
 
     static class FastReader {

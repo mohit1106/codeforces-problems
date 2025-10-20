@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class E_1_Rudolf_and_Snowflakes_simple_version {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,31 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
-
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
+        int n = in.nextInt();
+        if(n<7){
+            System.out.println("NO");
+            return;
         }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
-        }
+        
+        for(int k=2; k<=1000; k++){
+            int vertices = 1;
+            int term = 1;
+            int minreq = 1+k+(k*k);
+            if(n<minreq){
+                System.out.println("NO");
+                return;
+            }
+            while(vertices<n){
+                term = term*k;
 
-        System.out.println(count);
+                vertices += term;
+                if(vertices == n){
+                    System.out.println("YES");
+                    return;
+                }
+            }
+        }
+        System.out.println("NO");
     }
 
     static class FastReader {

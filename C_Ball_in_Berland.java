@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class C_Ball_in_Berland {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -14,25 +14,29 @@ public class B_MEXor_Mixup {
     static void solve() {
         int a = in.nextInt();
         int b = in.nextInt();
+        int k = in.nextInt();
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
+        int[] boys = new int[k];
+        int[] girls = new int[k];
 
-        int count = 0;
-        if(x == b) {
-            count = a;
+        for (int i = 0; i < k; i++) {
+            boys[i] = in.nextInt();
         }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
+        for (int i = 0; i < k; i++) {
+            girls[i] = in.nextInt();
         }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        long[] cntB = new long[a+1];
+        long[] cntG = new long[b+1];
+        for (int i = 0; i < k; i++) {
+            cntB[boys[i]]++;
+            cntG[girls[i]]++;
         }
-
-        System.out.println(count);
+        long ans = 0;
+    for (int i = 0; i < k; i++) {
+        long bad = (cntB[boys[i]] - 1) + (cntG[girls[i]] - 1);
+        ans += (k - 1 - bad);
+    }
+    System.out.println(ans / 2);
     }
 
     static class FastReader {

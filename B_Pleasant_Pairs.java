@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class B_Pleasant_Pairs {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,29 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        int n = in.nextInt();
+        int[] arr = new int[n];
+        int[] pos = new int[2*n +1];
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        for (int i = 0; i < n; i++) {
+            arr[i] = in.nextInt();
+            pos[arr[i]] = i+1;
         }
 
-        System.out.println(count);
+        int cnt=0;
+        for(int i=0; i<n; i++){
+            int ai = arr[i];
+            for (int m = ai; m <=2*n; m+=ai) {
+                int j = pos[m/ai];
+                if (j > 0 && j > i + 1) { 
+                    if ((long) ai * (m / ai) == (i + 1) + j) {
+                        cnt++;
+                    }
+                }
+            }
+        }
+        System.out.println(cnt);
+
     }
 
     static class FastReader {

@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class A_Copil_Copac_Draws_Trees {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,42 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        int n = in.nextInt();
+    @SuppressWarnings("unchecked")
+    ArrayList<int[]>[] g = new ArrayList[n + 1];
+    for (int i = 1; i <= n; ++i) g[i] = new ArrayList<>();
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
+    for (int i = 1; i <= n - 1; ++i) {
+        int u = in.nextInt();
+        int v = in.nextInt();
+        g[u].add(new int[]{v, i});
+        g[v].add(new int[]{u, i});
+    }
 
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
-        }
+    int[] d = new int[n + 1];
+    boolean[] vis = new boolean[n + 1];
 
-        System.out.println(count);
+    Deque<int[]> stack = new ArrayDeque<>();
+    stack.push(new int[]{1, n}); 
+    vis[1] = true;
+    d[1] = 0;
+
+    int max = 0;
+    while (!stack.isEmpty()) {
+        int[] cur = stack.pop();
+        int node = cur[0], t = cur[1];
+        for (int[] e : g[node]) {
+            int nei = e[0], idx = e[1];
+            if (!vis[nei]) {
+                vis[nei] = true;
+                d[nei] = d[node] + (idx < t ? 1 : 0);
+                max = Math.max(max, d[nei]);
+                stack.push(new int[]{nei, idx});
+            }
+        }
+    }
+
+    System.out.println(max);
     }
 
     static class FastReader {

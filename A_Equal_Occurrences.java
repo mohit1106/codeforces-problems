@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class A_Equal_Occurrences {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,26 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        int n = in.nextInt();
+            int[] a = new int[n];
+            for (int i=0; i<n; i++) {
+                a[i] = in.nextInt();
+            }
+            Map<Integer, Integer> freq=new HashMap<>();
+            for (int x : a) {
+                freq.put(x, freq.getOrDefault(x, 0) + 1);
+            }
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
+            int maxBalanced = 0;
+            for (int f=1; f<=n; f++) {
+                int count=0;
+                for (int val:freq.values()) {
+                    if (val>=f) count++;
+                }
+                maxBalanced = Math.max(maxBalanced, count*f);
+            }
 
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
-        }
-
-        System.out.println(count);
+            System.out.println(maxBalanced);
     }
 
     static class FastReader {

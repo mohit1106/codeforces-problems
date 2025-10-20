@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class C_Array_Game {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,37 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
-
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
+        int n= in.nextInt();
+        long k = in.nextLong();
+        long[] arr = new long[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = in.nextLong();
         }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
+        if(k>=3){
+            System.out.println(0);
+            return;
         }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        Arrays.sort(arr);
+        long d = arr[0];
+        for (int i = 0; i < n - 1; i++)
+            d = Math.min(d, arr[i + 1] - arr[i]);
+
+        if (k == 1) {
+            System.out.println(d);
+            return;
         }
 
-        System.out.println(count);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                long v =arr[i] -arr[j]; 
+                int p = Arrays.binarySearch(arr, v);
+                if (p < 0) p = -p - 1; 
+                if (p < n) d = Math.min(d, arr[p] - v);
+                if (p > 0) d = Math.min(d, v - arr[p - 1]);
+            }
+        }
+
+        System.out.println(d);
     }
 
     static class FastReader {

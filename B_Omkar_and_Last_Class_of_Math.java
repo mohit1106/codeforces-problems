@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class B_Omkar_and_Last_Class_of_Math {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,22 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        long n = in.nextLong();
+        long bes = 1;
+        long limit = (long) Math.sqrt(n);
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
+        for (long i = 1; i <=limit; i++) {
+            if(n%i==0){
+                long d1 = i;
+                long d2 = n/i;
+                if(d1 <=n/2 && d1>bes) bes = d1;
+                if(d2 <=n/2 && d2>bes) bes = d2;
 
-        int count = 0;
-        if(x == b) {
-            count = a;
+            }
         }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
-        }
-
-        System.out.println(count);
+        long a=bes;
+        long b = n-bes;
+        System.out.println(a + " " + b);
     }
 
     static class FastReader {

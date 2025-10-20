@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class D_Buying_Shovels {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,37 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        long n = in.nextLong();
+        long k = in.nextLong();
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        if(k>=n){
+            System.out.println(1);
+            return;
         }
 
-        System.out.println(count);
+        long maxDiv = 1;
+        for(long i=1; i*i <= n; i++){
+            if(n%i == 0){
+                long div1 = i;
+                long div2 = n/i;
+                if(div1 <= k) maxDiv = Math.max(maxDiv, div1);
+                if(div2 <= k) maxDiv = Math.max(maxDiv, div2);
+            }
+        }
+        System.out.println(n/maxDiv);
+    }
+
+    static List<Long> getFactors(long n) {
+        List<Long> factors = new ArrayList<>();
+        for (int i = 1; i * i <= n; i++) {
+            if (n % i == 0) {
+                factors.add((long) i);               
+                if (i != n / i)              
+                    factors.add((long) (n/i));     
+            }
+        }
+        Collections.sort(factors);  
+        return factors;
     }
 
     static class FastReader {

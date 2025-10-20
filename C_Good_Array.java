@@ -1,38 +1,49 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class C_Good_Array {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
     public static void main(String[] args) throws Exception {
-        int t = in.nextInt();
-        while (t-- > 0) solve();
+        solve();
         out.flush();
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        int n = in.nextInt();
+        int[] arr = new int[n];
+        long sum = 0;
+        HashMap<Integer, Integer> freq = new HashMap<>();
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
+        for (int i = 0; i < n; i++) {
+            arr[i] = in.nextInt();
+            sum += arr[i];
+            freq.put(arr[i], freq.getOrDefault(arr[i], 0)+1);
+        }
+        
+        ArrayList<Integer> res = new ArrayList<>();
 
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
-        }
+        for(int i=0; i<n;i++){
+            long newsum = sum-arr[i];
+            if(newsum%2 != 0){
+                continue;
+            }
 
-        System.out.println(count);
+            long x =  (newsum/2);
+            if (x<1 || x>1_000_000) continue;
+
+            int cnt = freq.getOrDefault((int)x, 0);
+            if(x == arr[i]){
+                if(cnt>=2) res.add(i+1);
+            } else{
+                if(cnt>=1) res.add(i+1);
+            }
+        }
+        System.out.println(res.size());
+        for(int idx : res){
+            System.out.print(idx + " ");
+        }
     }
 
     static class FastReader {

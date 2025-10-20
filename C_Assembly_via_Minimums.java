@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class C_Assembly_via_Minimums {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,28 +12,33 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+    int n = in.nextInt();
+    int m = n*(n-1)/2;
+    Integer[] b = new Integer[m];
+    for(int i=0;i<m;i++) b[i] = in.nextInt();
+    
+    TreeMap<Integer,Integer> map = new TreeMap<>(Collections.reverseOrder());
+    for(int x : b) map.put(x, map.getOrDefault(x,0)+1);
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
+    int[] a = new int[n];
+    int idx = 0;
+while(idx < n){
+    int val = map.firstKey(); 
+    a[idx++] = val;
 
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
-        }
+    map.put(val, map.get(val)-1);
+    if(map.get(val) == 0) map.remove(val);
 
-        System.out.println(count);
+    for(int i=0;i<idx-1;i++){
+        int minVal = Math.min(val, a[i]);
+        map.put(minVal, map.get(minVal)-1);
+        if(map.get(minVal) == 0) map.remove(minVal);
     }
+}
+
+    for(int i=0;i<n;i++) out.print(a[i]+" ");
+    out.println();
+}
 
     static class FastReader {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

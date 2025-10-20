@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class D_Same_Differences {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,27 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
-
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        int n = in.nextInt();
+        int[] arr = new int[n];
+        int[] diff = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = in.nextInt();
+            diff[i] = arr[i] - (i+1);
         }
 
-        System.out.println(count);
+        HashMap<Integer, Long> map = new HashMap<>();
+        for (int a : diff) {
+            map.put(a, map.getOrDefault(a, 0L)+1);
+        }
+        long res =0;
+
+        for(long val : map.values()){
+            if(val > 1){
+                res += ((val)*(val-1))/2;
+            }
+        }
+        System.out.println(res);
+
     }
 
     static class FastReader {

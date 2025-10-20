@@ -1,9 +1,11 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class B_Make_Almost_Equal_With_Mod {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
+
+    static final long LIMIT = 1_000_000_000_000_000_000L;
 
     public static void main(String[] args) throws Exception {
         int t = in.nextInt();
@@ -12,27 +14,27 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
-
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        int n = in.nextInt();
+        long[] arr = new long[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = in.nextLong();
         }
 
-        System.out.println(count);
+        boolean found = false;
+        for(int j=1; j<=60; j++){
+            long k = 1L << j;
+            if(k > LIMIT) break;
+            Set<Long> set = new HashSet<>();
+            for (long v : arr) {
+                set.add(v%k);
+            }
+            if(set.size() ==2){
+                System.out.println(k);
+                found=true;
+                break;
+            }
+        }
+        if(!found) System.out.println(LIMIT);
     }
 
     static class FastReader {

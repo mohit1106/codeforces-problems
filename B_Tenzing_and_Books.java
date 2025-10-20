@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class B_Tenzing_and_Books {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,32 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        int n = in.nextInt();
+        int x = in.nextInt();
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        int[][] stacks = new int[3][n];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < n; j++) {
+                stacks[i][j] = in.nextInt();
+            }
         }
 
-        System.out.println(count);
+        int knowledge = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < n; j++) {
+                if((stacks[i][j] | x) == x){
+                    knowledge = knowledge | stacks[i][j];
+                }
+                else{
+                    break;
+                }
+            }
+        }
+        if (knowledge == x) {
+            System.out.println("Yes");
+        } else{
+            System.out.println("No");
+        }
     }
 
     static class FastReader {

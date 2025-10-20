@@ -1,38 +1,30 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class C_Simple_Strings {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
     public static void main(String[] args) throws Exception {
-        int t = in.nextInt();
-        while (t-- > 0) solve();
-        out.flush();
+        solve();
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        String str = in.next();
+        int n = str.length();
+        char[] arr = str.toCharArray();
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
+        for(int i=1 ; i<n; i++){
+            if(arr[i] == arr[i-1]){
+                for(char c = 'a'; c<= 'z'; c++){
+                    if(c!= arr[i-1] && (i + 1 == n || c != arr[i + 1])){
+                        arr[i] = c;
+                        break;
+                    }
+                }
+            }
         }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
-        }
-
-        System.out.println(count);
+        System.out.println(new String(arr));
     }
 
     static class FastReader {

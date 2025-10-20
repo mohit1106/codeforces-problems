@@ -1,38 +1,39 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class B_Balanced_Tunnel {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
     public static void main(String[] args) throws Exception {
-        int t = in.nextInt();
-        while (t-- > 0) solve();
+        solve();
         out.flush();
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        int n = in.nextInt();
+        int[] a = new int[n];
+        int[] b = new int[n];
+        for (int i = 0; i < n; i++) a[i] = in.nextInt() - 1;
+        for (int i = 0; i < n; i++) b[i] = in.nextInt() - 1;
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
+        int[] pos = new int[n];
+        for (int i = 0; i < n; i++) pos[b[i]] = i;
 
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        int[] c = new int[n];
+        for (int i = 0; i < n; i++) c[i] = pos[a[i]];
+
+        int mx = -1;
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            if (c[i] > mx) {
+                mx = c[i];
+            } else {
+                ans++;
+            }
         }
 
-        System.out.println(count);
+        out.println(ans);
     }
 
     static class FastReader {

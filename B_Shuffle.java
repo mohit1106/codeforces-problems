@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class B_Shuffle {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,23 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        int n = in.nextInt();
+        int x = in.nextInt();
+        int m = in.nextInt();
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
 
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
-        }
+        int L=x, R=x;
 
-        System.out.println(count);
+        for(int i=1; i<=m; i++){
+            int l = in.nextInt();
+            int r = in.nextInt();
+
+            if(r >= L && l <=R){
+                L = Math.min(L,l);
+                R = Math.max(R, r);
+            }
+        }
+        System.out.println(R-L+1);
     }
 
     static class FastReader {

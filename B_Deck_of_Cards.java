@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class B_Deck_of_Cards {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,45 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        int n = in.nextInt();
+        int k = in.nextInt();
+        String s = in.next();
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        if (k == n) {
+            char[] allRemoved = new char[n];
+            Arrays.fill(allRemoved, '-');
+            out.println(new String(allRemoved));
+            return;
         }
 
-        System.out.println(count);
+        int cnt0 = 0, cnt1 = 0, cnt2 = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '0') cnt0++;
+            else if (c == '1') cnt1++;
+            else cnt2++;
+        }
+
+        int lowL = cnt0 + 1;           
+        int highL = cnt0 + cnt2 + 1; 
+
+        int unionL = lowL;
+        int unionR = n - cnt1;       
+
+        int interL = highL;
+        int interR = n - cnt1 - cnt2;
+
+        char[] res = new char[n];
+        for (int i = 1; i <= n; i++) {
+            if (i<unionL|| i > unionR) {
+                res[i-1] = '-';
+            } else if (interL <= interR && i >= interL && i <= interR) {
+                res[i-1] = '+';
+            } else {
+                res[i-1] = '?';
+            }
+        }
+
+        out.println(new String(res));
     }
 
     static class FastReader {

@@ -1,38 +1,33 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class B_Average_Sleep_Time {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
     public static void main(String[] args) throws Exception {
-        int t = in.nextInt();
-        while (t-- > 0) solve();
+        solve();
         out.flush();
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int[] a = new int[n+1];
+        long[] prefix = new long[n+1];
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        for (int i = 1; i <= n; i++) {
+            a[i] = in.nextInt();
+            prefix[i] = prefix[i-1] + a[i];
         }
 
-        System.out.println(count);
+        double total = 0;
+        for (int i = k; i <= n; i++) {
+            total += prefix[i] - prefix[i-k];
+        }
+
+        double avg = total / (n - k + 1);
+        System.out.printf("%.10f\n", avg);
     }
 
     static class FastReader {

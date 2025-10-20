@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class C_Make_Them_Equal {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,39 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
-
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
+        int n = in.nextInt();
+        char c = in.next().charAt(0);
+        String str  = in.next();
+        
+        boolean isAllEqual = true;
+        for(char a : str.toCharArray()){
+            if(a!= c){
+                isAllEqual = false;
+                break;
+            }
         }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        if (isAllEqual) {
+            System.out.println(0);
+            return;
         }
 
-        System.out.println(count);
+        for (int x = 2; x <=n; x++) {
+            boolean ok = true;
+            for (int i = x; i <=n; i+=x) {
+                if(str.charAt(i-1)!=c){
+                    ok = false;
+                    break;
+                }
+            }
+            if(ok){
+                System.out.println(1);
+                System.out.println(x);
+                return;
+            }
+        }
+
+            System.out.println(2);
+            System.out.println(n + " " + (n-1));
     }
 
     static class FastReader {

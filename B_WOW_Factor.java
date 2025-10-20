@@ -1,38 +1,42 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class B_WOW_Factor {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
     public static void main(String[] args) throws Exception {
-        int t = in.nextInt();
-        while (t-- > 0) solve();
+        solve();
         out.flush();
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        String s = in.next();
+        int n = s.length();
+        long[] prefixW = new long[n+1];
+        long[] suffixW = new long[n+2];
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
+        for (int i=1; i<n; i++) {
+            prefixW[i] = prefixW[i-1];
+            if (s.charAt(i) == 'v' && s.charAt(i-1) == 'v') {
+                prefixW[i]++;
+            }
+        }
+        prefixW[n] = prefixW[n-1];
 
-        int count = 0;
-        if(x == b) {
-            count = a;
+        for (int i = n-2; i >= 0; i--) {
+            suffixW[i] = suffixW[i+1];
+            if (s.charAt(i) == 'v' && s.charAt(i+1) == 'v') {
+                suffixW[i]++;
+            }
         }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
+        long ans = 0;
+        for(int i=0; i<n; i++){
+            if(s.charAt(i)=='o'){
+                ans += prefixW[i]*suffixW[i];
+            }
         }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
-        }
-
-        System.out.println(count);
+        System.out.println(ans);
     }
 
     static class FastReader {

@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class G_2_Sort {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,27 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        int n = in.nextInt();
+        int k = in.nextInt();
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = in.nextInt();
         }
 
-        System.out.println(count);
+        boolean[] good = new boolean[n-1];
+        for(int i=0; i<n-1; i++){
+            if(arr[i] < 2*arr[i+1]) good[i] = true;
+        }
+        int ans =0;
+        int cnt = 0;
+        for(int i=0; i<n-1; i++){
+            if(good[i]) cnt++;
+            else cnt=0;
+
+            if(cnt>=k) ans++;
+        }
+        System.out.println(ans);
     }
 
     static class FastReader {

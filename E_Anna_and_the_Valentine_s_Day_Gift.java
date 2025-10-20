@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class E_Anna_and_the_Valentine_s_Day_Gift {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,28 +12,40 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
+        int n = in.nextInt();
+    int m = in.nextInt();
+    String[] arr = new String[n];
+    int[] len = new int[n];
+    int[] zrr = new int[n];
 
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
+    for (int i = 0; i < n; i++) {
+        arr[i] = in.next();
+        len[i] = arr[i].length();
+        int cnt = 0;
+        for (int j = arr[i].length() - 1; j >= 0 && arr[i].charAt(j) == '0'; j--) {
+            cnt++;
         }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
-        }
-
-        System.out.println(count);
+        zrr[i] = cnt;
     }
+
+    long ans = 0;
+    for (int i = 0; i < n; i++) {
+        ans += len[i] - zrr[i];
+    }
+
+    Arrays.sort(zrr);
+    for (int i = 0; i < n / 2; i++) {
+        int tmp = zrr[i];
+        zrr[i] = zrr[n - 1 - i];
+        zrr[n - 1 - i] = tmp;
+    }
+
+    for (int i = 0; i < n; i++) {
+        if ((i & 1) == 1) ans += zrr[i];
+    }
+
+    System.out.println(ans - 1 >= m ? "Sasha" : "Anna");
+}
 
     static class FastReader {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

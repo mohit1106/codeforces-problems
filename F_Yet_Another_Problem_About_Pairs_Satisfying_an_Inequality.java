@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class B_MEXor_Mixup {
+public class F_Yet_Another_Problem_About_Pairs_Satisfying_an_Inequality {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,23 @@ public class B_MEXor_Mixup {
     }
 
     static void solve() {
-        int a = in.nextInt();
-        int b = in.nextInt();
-
-        int x = 0;  // XOR from 0 to a-1
-        if((a-1)%4 == 0) x = a-1;
-        else if((a-1)%4 == 1) x = 1;
-        else if((a-1)%4 == 2) x= a;
-        else x = 0;
-
-        int count = 0;
-        if(x == b) {
-            count = a;
-        }
-        else if((x^b) != a){
-            count = a + 1;  // add x^b as last element
-        }
-        else if((x^b) == a) {
-            count = a+2;  // add x^b^1  and 1 as last elements
+        int n = in.nextInt();
+        int[] arr = new int[n+1];
+        for (int i = 1; i <= n; i++) {
+            arr[i] = in.nextInt();
         }
 
-        System.out.println(count);
+        long res = 0;
+        ArrayList<Integer> v = new ArrayList<>();
+        for (int i = 1; i <=n; i++) {
+            if(arr[i]>=i) continue;
+            
+            int pos = Collections.binarySearch(v, arr[i]);
+            if(pos<0) pos= -pos-1;
+            res += pos;
+            v.add(i);
+        }
+        System.out.println(res);
     }
 
     static class FastReader {
