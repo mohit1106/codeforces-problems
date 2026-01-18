@@ -15,6 +15,37 @@ public class D_OutOfMemoryError {
         int n = in.nextInt();
         int m = in.nextInt();
         int h = in.nextInt();
+        
+        int[] org = new int[n];
+        int[] arr = new int[n];
+        int[] last = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            org[i] = in.nextInt();
+            arr[i] = org[i];
+            last[i] = 0;
+        }
+        int loopNo = 0;
+        for(int i=0; i<m; i++){
+            int b = in.nextInt()-1;
+            int c = in.nextInt();
+
+            if (last[b] != loopNo) {
+                arr[b] = org[b];
+                last[b] = loopNo;
+            }
+
+            if (arr[b] + c > h) {
+                loopNo++;
+            }else {
+                arr[b] = arr[b] + c;
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            if(last[i] != loopNo) arr[i] = org[i];
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
     }
 
     static class FastReader {
