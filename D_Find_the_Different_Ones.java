@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class D_Buying_Shovels {
+public class D_Find_the_Different_Ones {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,27 @@ public class D_Buying_Shovels {
     }
 
     static void solve() {
-        long n = in.nextLong();
-        long k = in.nextLong();
-        if(k >= n) {
-            System.out.println(1);
-            return;
+        int n = in.nextInt();
+        int[] arr = new int[n];
+        for(int i=0; i<n; i++){
+            arr[i] = in.nextInt();
         }
-        
-        long maxDivisor = 1;
-
-        for(long i=1; i*i <= n; i++){
-            if(n %i == 0){
-                long div1 = i;
-                long div2 = n/i;
-                if(div1 <= k) maxDivisor = Math.max(maxDivisor, div1);
-                if(div2 <= k) maxDivisor = Math.max(maxDivisor, div2);
+        int q = in.nextInt();
+        for(int i=0; i<q; i++){
+            int l = in.nextInt();
+            int r = in.nextInt();
+            
+            if(arr[l] != arr[r]){
+                System.out.println(l +" " + r);
+                continue;
+            }
+            for(int curr=l; curr<=r; curr++){
+                if(arr[curr] != arr[r]){
+                    System.out.println(curr +" "+r);
+                    continue;
+                }
             }
         }
-
-        System.out.println(n/maxDivisor);
-        
-
     }
 
     static class FastReader {

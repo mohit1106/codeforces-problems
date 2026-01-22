@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class D_Buying_Shovels {
+public class E_Binary_Deque {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,40 @@ public class D_Buying_Shovels {
     }
 
     static void solve() {
-        long n = in.nextLong();
-        long k = in.nextLong();
-        if(k >= n) {
-            System.out.println(1);
+        int n = in.nextInt();
+        int s = in.nextInt();
+
+        int[] arr = new int[n];
+        int totalSum = 0;
+
+        for(int i=0; i<n; i++){
+            arr[i] = in.nextInt();
+            totalSum += arr[i];
+        }
+        if(totalSum < s) {
+            System.out.println(-1);
+            return;
+        }if(totalSum == s) {
+            System.out.println(0);
             return;
         }
-        
-        long maxDivisor = 1;
 
-        for(long i=1; i*i <= n; i++){
-            if(n %i == 0){
-                long div1 = i;
-                long div2 = n/i;
-                if(div1 <= k) maxDivisor = Math.max(maxDivisor, div1);
-                if(div2 <= k) maxDivisor = Math.max(maxDivisor, div2);
+        int l=0, curr = 0, maxLen = -1;
+        for(int r=0; r<n; r++) {
+            curr = curr + arr[r];
+            while(curr > s){
+                curr = curr - arr[l++];
+            }
+            if(curr == s){
+                maxLen = Math.max(maxLen, r-l+1);
             }
         }
-
-        System.out.println(n/maxDivisor);
+        if(maxLen == -1){
+            System.out.println(-1);
+        }else{
+            System.out.println(n - maxLen);
+        }
         
-
     }
 
     static class FastReader {
