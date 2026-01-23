@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class D_Buying_Shovels {
+public class G_Fall_Down {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,28 +12,47 @@ public class D_Buying_Shovels {
     }
 
     static void solve() {
-        long n = in.nextLong();
-        long k = in.nextLong();
-        if(k >= n) {
-            System.out.println(1);
-            return;
+        int n = in.nextInt();
+        int m = in.nextInt();
+        char[][] arr = new char[n][m];
+        for (int i = 0; i < n; i++) {
+            arr[i] = in.next().toCharArray();
         }
-        
-        long maxDivisor = 1;
 
-        for(long i=1; i*i <= n; i++){
-            if(n %i == 0){
-                long div1 = i;
-                long div2 = n/i;
-                if(div1 <= k) maxDivisor = Math.max(maxDivisor, div1);
-                if(div2 <= k) maxDivisor = Math.max(maxDivisor, div2);
+        char[][] res= new char[n][m];
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(res[i], '.');
+        }
+
+        for(int j=0; j<m; j++){
+            int last = n-1;
+            int stones = 0;
+
+            for(int i=n-1; i>=0; i--){
+                if(arr[i][j] == '*'){
+                    stones++;
+                } 
+                else if(arr[i][j] == 'o'){
+                    for (int k = 0; k < stones; k++) {
+                        res[last--][j] = '*';
+                    }
+                    stones = 0;
+                    res[i][j] = 'o';
+                    last = i-1;
+                } 
+            }
+
+            for (int k = 0; k < stones; k++) {
+                res[last--][j] = '*';
             }
         }
 
-        System.out.println(n/maxDivisor);
-        
-
+        for (int i = 0; i < n; i++) {
+            System.out.println(new String(res[i]));
+        }
     }
+
+
 
     static class FastReader {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

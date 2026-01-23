@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class D_Buying_Shovels {
+public class C_Double_ended_Strings {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,32 @@ public class D_Buying_Shovels {
     }
 
     static void solve() {
-        long n = in.nextLong();
-        long k = in.nextLong();
-        if(k >= n) {
-            System.out.println(1);
+        String str1 = in.next();
+        String str2 = in.next();
+        if(str1.equals(str2)) {
+            System.out.println(0);
             return;
         }
-        
-        long maxDivisor = 1;
 
-        for(long i=1; i*i <= n; i++){
-            if(n %i == 0){
-                long div1 = i;
-                long div2 = n/i;
-                if(div1 <= k) maxDivisor = Math.max(maxDivisor, div1);
-                if(div2 <= k) maxDivisor = Math.max(maxDivisor, div2);
+        int deleted = 0;
+        int n1 = str1.length(), n2 = str2.length();
+        boolean foundStart = false;
+        
+        for(int i=0; i<n1; i++){
+            for (int j = 0; j < n2; j++) {
+                if(str1.charAt(i) == str2.charAt(j)){
+                    deleted += j;
+                    deleted += i;
+                    foundStart = true;
+                    break;
+                }
             }
+            if(foundStart) {
+                break;
+            }
+
         }
-
-        System.out.println(n/maxDivisor);
         
-
     }
 
     static class FastReader {

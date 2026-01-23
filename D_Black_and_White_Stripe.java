@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class D_Buying_Shovels {
+public class D_Black_and_White_Stripe {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,31 @@ public class D_Buying_Shovels {
     }
 
     static void solve() {
-        long n = in.nextLong();
-        long k = in.nextLong();
-        if(k >= n) {
-            System.out.println(1);
+        int n = in.nextInt();
+        int k= in.nextInt();
+        if(k>n) {
+            System.out.println(-1);
             return;
         }
+        String str = in.next();
+        int b = 0, w=0;
+        for(char ch : str.toCharArray()){
+            if(ch == 'B') b++;
+            if(ch == 'w') w++;
+        }
         
-        long maxDivisor = 1;
-
-        for(long i=1; i*i <= n; i++){
-            if(n %i == 0){
-                long div1 = i;
-                long div2 = n/i;
-                if(div1 <= k) maxDivisor = Math.max(maxDivisor, div1);
-                if(div2 <= k) maxDivisor = Math.max(maxDivisor, div2);
-            }
+        int curr = 0;
+        for(int i=0; i<k; i++){
+            if(str.charAt(i) == 'W') curr++; 
         }
 
-        System.out.println(n/maxDivisor);
-        
-
+        int min = curr;
+        for(int i=k; i<n; i++){
+            if(str.charAt(i) == 'W') curr++;
+            if(str.charAt(i-k) == 'W') curr--;
+            min = Math.min(min, curr);
+        }
+        System.out.println(min);
     }
 
     static class FastReader {

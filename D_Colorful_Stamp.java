@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class D_Buying_Shovels {
+public class D_Colorful_Stamp {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,21 @@ public class D_Buying_Shovels {
     }
 
     static void solve() {
-        long n = in.nextLong();
-        long k = in.nextLong();
-        if(k >= n) {
-            System.out.println(1);
-            return;
-        }
-        
-        long maxDivisor = 1;
+        int n = in.nextInt();
+        String str = in.next();
 
-        for(long i=1; i*i <= n; i++){
-            if(n %i == 0){
-                long div1 = i;
-                long div2 = n/i;
-                if(div1 <= k) maxDivisor = Math.max(maxDivisor, div1);
-                if(div2 <= k) maxDivisor = Math.max(maxDivisor, div2);
+        boolean possible = true;
+
+        String[] parts = str.split("W");
+        for(int i=0; i<parts.length; i++){
+            if (parts[i].length() == 0) continue;
+            if(!parts[i].contains("B") || !parts[i].contains("R")){
+                possible = false;
+                break;
             }
         }
-
-        System.out.println(n/maxDivisor);
-        
-
+        if(possible) System.out.println("YES");
+        else System.out.println("NO");
     }
 
     static class FastReader {

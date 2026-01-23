@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class D_Buying_Shovels {
+public class H_Maximal_AND {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
 
@@ -12,27 +12,27 @@ public class D_Buying_Shovels {
     }
 
     static void solve() {
-        long n = in.nextLong();
-        long k = in.nextLong();
-        if(k >= n) {
-            System.out.println(1);
-            return;
+        int n = in.nextInt();
+        int k = in.nextInt();
+        int[] arr = new int[n];
+        for(int i=0; i<n; i++){
+            arr[i] = in.nextInt();
         }
-        
-        long maxDivisor = 1;
 
-        for(long i=1; i*i <= n; i++){
-            if(n %i == 0){
-                long div1 = i;
-                long div2 = n/i;
-                if(div1 <= k) maxDivisor = Math.max(maxDivisor, div1);
-                if(div2 <= k) maxDivisor = Math.max(maxDivisor, div2);
+        long res = 0;
+        for(int bit = 30; bit >=0; bit--){
+            int notset = 0;
+            for(int a : arr){
+                if((a&(1<<bit)) == 0){
+                    notset++;
+                }
+            }
+            if(k>= notset){
+                res+=(1<<bit);
+                k -= notset;
             }
         }
-
-        System.out.println(n/maxDivisor);
-        
-
+        System.out.println(res);
     }
 
     static class FastReader {

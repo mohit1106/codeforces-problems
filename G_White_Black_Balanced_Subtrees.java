@@ -1,9 +1,25 @@
 import java.io.*;
 import java.util.*;
 
-public class D_Buying_Shovels {
+public class G_White_Black_Balanced_Subtrees {
     static PrintWriter out = new PrintWriter(System.out);
     static FastReader in = new FastReader();
+
+    static ArrayList<Integer>[] child;
+    static int[] val;
+    static int ans;
+
+    // public static class Node{
+    //     int data;
+    //     Node left; 
+    //     Node right;
+
+    //     Node(int data) {
+    //         this.data = data;
+    //         this.left = null;
+    //         this.right = null;
+    //     }
+    // }
 
     public static void main(String[] args) throws Exception {
         int t = in.nextInt();
@@ -12,28 +28,39 @@ public class D_Buying_Shovels {
     }
 
     static void solve() {
-        long n = in.nextLong();
-        long k = in.nextLong();
-        if(k >= n) {
-            System.out.println(1);
-            return;
+        int n = in.nextInt();
+        int[] par = new int[n+1];
+        for (int i = 2; i <= n; i++) {
+            par[i] = in.nextInt();
+        }
+        String str = in.next();
+
+        child = new ArrayList[n+1];
+        for(int i=1; i<=n; i++) child[i] = new ArrayList<>();
+        for(int i=2; i <=n; i++){
+            child[par[i]].add(i);
         }
         
-        long maxDivisor = 1;
-
-        for(long i=1; i*i <= n; i++){
-            if(n %i == 0){
-                long div1 = i;
-                long div2 = n/i;
-                if(div1 <= k) maxDivisor = Math.max(maxDivisor, div1);
-                if(div2 <= k) maxDivisor = Math.max(maxDivisor, div2);
-            }
+        val = new int[n+1];
+        for(int i=1; i<=n; i++){
+            char c = str.charAt(i-1);
+            val[i] = (c == 'W' ? 1 : -1);
         }
+                ans = 0;
 
-        System.out.println(n/maxDivisor);
-        
-
+        dfs(1);
+        System.out.println(ans);
     }
+
+    public static int dfs(int u){
+        int sum = val[u];
+        for(int v : child[u]){
+            sum += dfs(v);
+        }
+        if(sum == 0) ans++;
+        return sum;
+    }
+
 
     static class FastReader {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
